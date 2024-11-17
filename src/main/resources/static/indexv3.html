@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Application</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
+    <style>
+        #chat {
+            width: 400px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #messages {
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .message {
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .sent {
+            background-color: #d1e7dd;
+            text-align: left;
+            margin-right: auto;
+        }
+
+        .received {
+            background-color: #f8d7da;
+            text-align: right;
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat Application</h1>
+<div id="chat">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Enter your message" />
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Application</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
+    <style>
+        #chat {
+            width: 400px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #messages {
+            height: 300px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        .message {
+            padding: 5px 10px;
+            margin: 5px;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .sent {
+            background-color: #d1e7dd;
+            text-align: left;
+            margin-left: auto;
+        }
+
+        .received {
+            background-color: #f8d7da;
+            text-align: right;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Chat Application</h1>
+<div id="chat">
+    <div id="messages"></div>
+    <input type="text" id="message" placeholder="Enter your message" />
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script>
+    let client = null;
+    const userId = `User-${Math.floor(Math.random() * 10000)}`; // Generate a unique user ID
+
+    // Connect to WebSocket
+    function connect() {
+        client = new StompJs.Client({
+            webSocketFactory: () => new SockJS('http://localhost:8080/chat'),
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+            onConnect: () => {
+                console.log('Connected to the broker as', userId);
+                // Subscribe to a topic
+                client.subscribe('/topic/messages', (message) => {
+                    const chatMessage = JSON.parse(message.body);
+                    showMessage(chatMessage);
+                });
+            },
+            onStompError: (frame) => {
+                console.error('Broker reported error:', frame.headers['message']);
+                console.error('Additional details:', frame.body);
+            },
+        });
+
+        client.activate();
+    }
+
+    // Send message
+    function sendMessage() {
+        const messageContent = document.getElementById('message').value;
+        if (messageContent && client && client.connected) {
+            const message = {
+                sender: userId,
+                content: messageContent,
+                timestamp: new Date().toISOString()
+            };
+            client.publish({
+                destination: '/app/sendMessage',
+                body: JSON.stringify(message)
+            });
+            showMessage(message, true); // Show the message immediately on the sender's side
+            document.getElementById('message').value = ''; // Clear the input field
+        } else {
+            console.error('Client is not connected or message is empty.');
+        }
+    }
+
+    // Display message
+    function showMessage(message, isSender = false) {
+        const messagesDiv = document.getElementById('messages');
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', isSender || message.sender === userId ? 'sent' : 'received');
+        messageElement.innerHTML = `<b>${message.sender}:</b> ${message.content}`;
+        messagesDiv.appendChild(messageElement);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll to the bottom
+    }
+
+    connect(); // Connect when the page loads
+</script>
+</body>
+</html>
