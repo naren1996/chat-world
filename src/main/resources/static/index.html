@@ -10,14 +10,58 @@
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.min.js"></script>
 </head>
+<!--<body>-->
+<!--<h1>Chat Application</h1>-->
+<!--<div id="chat-container">-->
+<!--    <div id="user-registration">-->
+<!--        <input type="text" id="username" placeholder="Enter your username" />-->
+<!--        <button onclick="registerUser()">Join Chat</button>-->
+<!--    </div>-->
+<!--    <div id="public-chat" class="chat-window"  style="display: none;>-->
+<!--        <h2>Public Chat</h2>-->
+<!--        <div id="messages" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; margin-bottom: 10px; background-color: #fff;"></div>-->
+<!--        <input type="text" id="message" placeholder="Enter your message" style="width: 80%;" />-->
+<!--        <button onclick="sendPublicMessage()">Send Public Message</button>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<!--&lt;!&ndash; Input for Private Chat &ndash;&gt;-->
+<!--<div id="private-chat-controls" style="margin-top: 20px;">-->
+<!--    <input type="text" id="recipient" placeholder="Enter recipient ID" style="width: 200px;" />-->
+<!--    <button onclick="openPrivateChat()">Start Private Chat</button>-->
+<!--</div>-->
+
+
+<!--&lt;!&ndash; Link to external JavaScript &ndash;&gt;-->
+<!--<script src="script.js"></script>-->
+<!--</body>-->
 <body>
 <h1>Chat Application</h1>
-<div id="chat">
-    <div id="messages"></div>
-    <input type="text" id="message" placeholder="Enter your message" />
-    <button onclick="sendMessage()">Send</button>
+<div id="chat-container">
+    <!-- User Registration -->
+    <div id="user-registration">
+        <input type="text" id="username" placeholder="Enter your username" />
+        <button onclick="registerUser()">Join Chat</button>
+    </div>
+
+    <!-- Public Chat -->
+    <div id="public-chat" class="chat-window" style="display: none;">
+        <h2>Public Chat</h2>
+        <div id="messages" style="height: 200px; overflow-y: auto; border: 1px solid #ddd; padding: 5px; margin-bottom: 10px; background-color: #fff;"></div>
+        <input type="text" id="message" placeholder="Enter your message" style="width: 80%;" />
+        <button onclick="sendPublicMessage()">Send Public Message</button>
+    </div>
+
+    <!-- Private Chat Controls -->
+    <div id="private-chat-controls" style="margin-top: 20px;">
+        <input type="text" id="recipient" placeholder="Enter recipient ID" style="width: 200px;" />
+        <button onclick="openPrivateChat()">Start Private Chat</button>
+    </div>
 </div>
+
 <!-- Link to external JavaScript -->
 <script src="script.js"></script>
 </body>
+
 </html>

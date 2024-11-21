@@ -34,3 +34,18 @@
     text-align: right;
     margin-left: auto;
 }
+#chat-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping when there are many chat boxes */
+    gap: 10px; /* Space between chat boxes */
+}
+
+.chat-window {
+    width: 300px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    flex-shrink: 0; /* Prevent shrinking of chat windows */
+}
+
